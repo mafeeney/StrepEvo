@@ -1,0 +1,43 @@
+# install conda environment for package managment -
+# https://docs.conda.io/en/latest/miniconda.html
+
+# Install local blast for python
+
+conda install -c bioconda blast
+
+# make blast database - guide here -  https://angus.readthedocs.io/en/2019/running-command-line-blast.html
+# ActDES database file is all_protein_sequences.fasta 
+
+makeblastdb -in all_protein_sequences.fasta -dbtype prot parse_seqids
+
+# makeblast command will generate a series of database files in the directory, this can then be searched, like below, -evalue can be altered to increase stringency of the search
+
+blastp -query your_sequence_query.fasta -db all_protein_sequences.fasta -evalue 0.1 -outfmt 6 -max_target_seqs 10000000|cut -f 2 > output_filename.txt
+
+# use the 'sort' and 'uniq' functions in Bash to sort the entries and then remove the duplicates from the list
+
+sort output_filename.txt | uniq > output_filename_Unique.txt
+
+# use 'blastdbcmd' to extract the sequences from your database
+
+blastdbcmd -dbtype prot -db all_protein_sequences.fasta -entry_batch output_filename_Unique.txt > output_filename_hits_Unique.fasta
+
+# install the Muscle alignment program
+
+conda install -c bioconda muscle
+
+# run muscle on the output_filename_hits_Unique.fasta file
+
+muscle -in output_filename_hits_Unique.fasta -out output_filename_hits_Unique.aln
+
+# use GBLOCKS to clean the gaps of the alignment 
+
+conda install -c bioconda gblocks
+
+gblocks output_filename_hits_Unique.aln -b4=5 -b5=H -b3=10>LOGhits.GBLOCKS  
+
+# install Quicktree to build a phylogenetic tree from the alignment
+
+conda install -c bioconda quicktree
+
+
