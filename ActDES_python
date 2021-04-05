@@ -28,7 +28,7 @@ conda install -c bioconda muscle
 
 # run muscle on the output_filename_hits_Unique.fasta file
 
-muscle -in output_filename_hits_Unique.fasta -out output_filename_hits_Unique.aln
+muscle -in output_filename_hits_Unique.fasta -out output_filename_hits_Unique.afa
 
 # use GBLOCKS to clean the gaps of the alignment 
 
@@ -36,8 +36,20 @@ conda install -c bioconda gblocks
 
 gblocks output_filename_hits_Unique.aln -b4=5 -b5=H -b3=10>LOGhits.GBLOCKS  
 
+#Install hmmer utility to enable file format changes, and to use the esl utility contained within
+
+conda install -c bioconda hmmer
+
+#run esl command to change the aligned fasta file (.afa) file to Stockholm format (.sto) that is readable by quick tree
+
+esl-reformat stockholm output_filename_hits_Unique.afa > output_filename_hits_Unique.sto
+
 # install Quicktree to build a phylogenetic tree from the alignment
 
 conda install -c bioconda quicktree
 
+# run Quick Tree to build a bootstrapped tree
 
+quicktree -in a -out t -boot 1000 output_filename_hits_Unique.sto > output_filename_hits_Unique.tree
+
+# Tree can take several hours to run and the .tree file can be viewed in a number of programs - https://itol.embl.de/ is good and has lots of options
