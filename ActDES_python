@@ -8,7 +8,7 @@ conda install -c bioconda blast
 # make blast database - guide here -  https://angus.readthedocs.io/en/2019/running-command-line-blast.html
 # ActDES database file is all_protein_sequences.fasta 
 
-makeblastdb -in all_protein_sequences.fasta -dbtype prot parse_seqids
+makeblastdb -in all_protein_sequences.fasta -dbtype prot -parse_seqids
 
 # makeblast command will generate a series of database files in the directory, this can then be searched, like below, -evalue can be altered to increase stringency of the search
 
@@ -34,7 +34,7 @@ muscle -in output_filename_hits_Unique.fasta -out output_filename_hits_Unique.af
 
 conda install -c bioconda gblocks
 
-gblocks output_filename_hits_Unique.afa -b4=5 -b5=H -b3=10>LOGhits.GBLOCKS  
+Gblocks output_filename_hits_Unique.afa -b4=5 -b5=H -b3=10>LOGhits.GBLOCKS  
 
 #Install hmmer utility to enable file format changes, and to use the esl utility contained within
 
