@@ -3,12 +3,12 @@
 
 # Install local blast for python
 
-conda install -c bioconda blast
+conda install -c bioconda blast=2.7.1
 
 # make blast database - guide here -  https://angus.readthedocs.io/en/2019/running-command-line-blast.html
 # ActDES database file is all_protein_sequences.fasta 
 
-makeblastdb -in all_protein_sequences.fasta -dbtype prot parse_seqids
+makeblastdb -in all_protein_sequences.fasta -dbtype prot -parse_seqids
 
 # makeblast command will generate a series of database files in the directory, this can then be searched, like below, -evalue can be altered to increase stringency of the search
 
